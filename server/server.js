@@ -4,6 +4,7 @@ const connectDB = require("./src/DB/db");
 const app = express();
 const cors = require("cors");
 const authRoutes = require("./src/routes/auth");
+const resumeRoutes = require("./src/routes/resume");
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
@@ -17,6 +18,7 @@ app.get("/",(req,res)=>{
 })
 
 app.use("/api/auth", authRoutes);
+app.use("/api/resume",resumeRoutes);
 
 
 app.listen(process.env.PORT,()=>{
