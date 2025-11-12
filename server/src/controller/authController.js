@@ -1,7 +1,7 @@
 const userModel = require("../models/users");
-const { signupValidation } = require("../validations/signupValidation")
-const { loginValidation } = require("../validations/loginuserValidation")
-const { verifySchema } = require("../validations/validate");
+const { signupValidation } = require("../validations/userValidation/signupValidation")
+const { loginValidation } = require("../validations/userValidation/loginuserValidation")
+const { verifySchema } = require("../validations/userValidation/validate");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const sendVerificationEmail = require("../utils/sendEmail");
