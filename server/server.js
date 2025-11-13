@@ -5,6 +5,7 @@ const app = express();
 const cors = require("cors");
 const authRoutes = require("./src/routes/auth");
 const resumeRoutes = require("./src/routes/resume");
+const cookieParser = require("cookie-parser");
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
@@ -13,12 +14,9 @@ app.use(cors());
 
 connectDB();
 
-app.get("/",(req,res)=>{
-    res.send("Hello Ai Resume builder");
-})
-
+app.use(cookieParser());
 app.use("/api/auth", authRoutes);
-app.use("/api/resume",resumeRoutes);
+app.use("/api",resumeRoutes);
 
 
 app.listen(process.env.PORT,()=>{
