@@ -6,4 +6,4 @@ const {z} = require("zod");
     techStack: z.array(z.string().min(1)).optional(),
     link: z.string().url("Must be a valid URL").optional(),
 });
-module.exports=projectSchema;
+module.exports={projectSchema};

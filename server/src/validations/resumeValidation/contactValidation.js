@@ -13,4 +13,4 @@ const contactSchema = z.object({
     address: z.string().optional(),
 });
 
-module.exports=contactSchema;
+module.exports={contactSchema};

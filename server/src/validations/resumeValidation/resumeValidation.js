@@ -1,6 +1,6 @@
 const { z } = require("zod");
 const { educationSchema } = require("./educationValidation");
-const { workExperienceSchema } = require("./workExperienceValidation");
+const { workExperienceSchema } = require("./workEx");
 const { projectSchema } = require("./projectValidation");
 const { certificationSchema } = require("./certificationValidation");
 const { skillSchema } = require("./skillValidation");
@@ -24,6 +24,7 @@ const resumeSchema = z.object({
     certifications: z.array(certificationSchema).optional(),
     languages: z.array(languageSchema).optional(),
     interests: z.array(interestSchema).optional(),
+    
 });
 
 module.exports = { resumeSchema };
