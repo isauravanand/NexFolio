@@ -113,40 +113,31 @@ async function getResumeByUser(req, res) {
   }
 }
 
-async function getUserResumes(req, res) {
+const getUserResumes = async (req, res) => {
   try {
-    const userId = req.user?._id;
+    const userId = req.user._id;
 
-    if (!userId) {
-      return res.status(401).json({
-        success: false,
-        message: "Unauthorized. Please login again.",
-      });
-    }
-
-    //  Fetch all resumes by the logged-in user
     const resumes = await Resume.find({ user: userId }).sort({ createdAt: -1 });
 
-    if (!resumes.length) {
+    if (!resumes || resumes.length === 0) {
       return res.status(404).json({
         success: false,
         message: "No resumes found for this user.",
       });
     }
 
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
       count: resumes.length,
       resumes,
     });
   } catch (error) {
-    console.error("Error fetching resumes:", error);
-    return res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-    });
+    console.error("Get Resume by User Error:", error);
+    res.status(500).json({ success: false, message: "Server Error" });
   }
-}
+};
+
+
 
 async function updateResume(req, res) {
   try {
