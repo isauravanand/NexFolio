@@ -67,10 +67,16 @@ async function registerUser(req, res) {
         // Generate JWT token
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
-        res.cookie("token", token);
-        res.status(201).json({
+
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: false,
+        });
+
+        // Send SINGLE response only
+        return res.status(201).json({
             success: true,
-            message: "User Successfully Registered",
+            message: "Verification email sent. Please check your inbox.",
             user: {
                 _id: user._id,
                 email: user.email,
@@ -78,12 +84,8 @@ async function registerUser(req, res) {
             },
         });
 
-        return res.status(201).json({
-            success: true,
-            message: "User registered successfully. Verification email sent.",
-        });
 
-       
+
     } catch (error) {
         console.error("Signup Error:", error);
         return res.status(500).json({
@@ -200,8 +202,7 @@ async function verifyUser(req, res) {
 }
 
 //Logout User
-
-async function logoutUser(req,res) {
+async function logoutUser(req, res) {
     res.clearCookie("token");
     res.status(200).json({
         message: "User Logged Out Successfully"
