@@ -1,31 +1,36 @@
 const jwt = require("jsonwebtoken");
-const userModel = require("../models/users");
+const User = require("../models/users");
+
 
 const verifyToken = async (req, res, next) => {
     try {
-        const token =
-            req.cookies?.token ||
-            req.header("Authorization")?.replace("Bearer ", "");
+        let token;
+
+        if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+            token = req.headers.authorization.split(" ")[1];
+        }
+        else if (req.cookies && req.cookies.token) {
+            token = req.cookies.token;
+        }
 
         if (!token) {
             return res.status(401).json({
                 success: false,
-                message: "Access denied. Please log in first.",
+                message: "Unauthorized. No token provided",
             });
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        const user = await userModel.findById(decoded.id).select("-password");
+        req.user = await User.findById(decoded.id).select("-password");
 
-        if (!user) {
+        if (!req.user) {
             return res.status(401).json({
                 success: false,
-                message: "Invalid token or user not found.",
+                message: "User not found. Invalid token.",
             });
         }
 
-        req.user = user;
         next();
     } catch (error) {
         console.error("Token verification failed:", error.message);
