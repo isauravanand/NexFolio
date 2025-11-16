@@ -56,7 +56,7 @@ const VerifyUser = () => {
 
       if (res.data.success) {
         toast.success("Email verified successfully!");
-        navigate("/dashboard");
+        navigate("/");
       }
     } catch (error) {
       const msg =
