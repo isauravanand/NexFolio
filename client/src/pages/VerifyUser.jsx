@@ -70,15 +70,12 @@ const VerifyUser = () => {
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center px-5 relative overflow-hidden">
-      {/* Background Effects */}
       <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-black to-black"></div>
 
       <div className="absolute top-0 left-0 w-72 h-72 bg-purple-700 opacity-30 rounded-full blur-3xl animate-pulse"></div>
       <div className="absolute bottom-0 right-0 w-72 h-72 bg-blue-600 opacity-30 rounded-full blur-3xl animate-pulse delay-1500"></div>
 
-      {/* Glassmorphic Container */}
       <div className="relative w-full max-w-md bg-white/10 backdrop-blur-xl p-8 rounded-2xl shadow-2xl border border-white/20 animate__animated animate__fadeIn">
-        {/* Header */}
         <h2 className="text-3xl font-bold text-white text-center mb-2">
           Verify Your Email
         </h2>
@@ -86,15 +83,12 @@ const VerifyUser = () => {
           Enter the verification code sent to your email address to complete registration.
         </p>
 
-        {/* Email Display */}
         <div className="mb-6 p-3 rounded-lg bg-white/5 border border-white/10">
           <p className="text-gray-400 text-xs">Verification code sent to:</p>
           <p className="text-white font-semibold text-sm">{email}</p>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleVerify} className="space-y-5">
-          {/* Verification Code */}
           <div>
             <label className="text-gray-200 text-sm mb-1 block">
               Verification Code
@@ -116,7 +110,6 @@ const VerifyUser = () => {
             </p>
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={loading}
@@ -126,7 +119,6 @@ const VerifyUser = () => {
           </button>
         </form>
 
-        {/* Back to Register Link */}
         <p className="text-center text-gray-300 mt-6">
           Didn't receive the code?{" "}
           <Link to="/user/register" className="text-purple-400 hover:underline">Back to Register </Link>

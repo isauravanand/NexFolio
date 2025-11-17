@@ -1,6 +1,6 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
-import Background from '../components/Background'
+import Navbar from '../components/UI/Navbar'
+import Background from '../components/UI/Background'
 
 const Dashboard = () => {
   return (
