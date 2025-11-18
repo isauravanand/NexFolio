@@ -1,7 +1,8 @@
 import AppRoutes from "./Routes/AppRoutes"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import Footer from "./components/Footer"
+import Footer from "./components/UserInterface/Footer"
+import Navbar from "./components/UserInterface/Navbar"
 
 function App() {
 

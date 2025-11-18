@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/UserInterface/Navbar";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Zap, Award, Clock, FileText, CheckCircle, Edit, Download } from "lucide-react";
@@ -102,15 +102,15 @@ const Home = () => {
                     navigate("/create-resume");
                   }
                 }}
-                className="inline-flex items-center px-6 py-3 bg-emerald-500 text-white rounded-md font-semibold shadow hover:brightness-95 transition"
+                className="cursor-pointer inline-flex  items-center px-6 py-3 bg-emerald-500 text-white rounded-md font-semibold shadow hover:brightness-95 transition"
               >
                 Create your own resume
               </button>
 
               <button
                 onClick={() => navigate("/user/register")}
-                className="inline-flex items-center px-5 py-3 bg-white/5 text-white rounded-md font-medium shadow hover:bg-white/10 transition"
-              >
+                className="inline-flex items-center px-5 py-3 bg-white/5 text-white rounded-md font-medium shadow hover:bg-white/10 transition cursor-pointer"
+              cursor-pointer>
                 Browse templates
               </button>
             </div>
@@ -119,7 +119,6 @@ const Home = () => {
               <p className="text-sm"> </p>
             </div>
 
-            {/* FAQ Section */}
             <div className="mt-16 space-y-6 max-w-2xl">
               <p className="text-sm font-semibold text-slate-300">Frequently asked questions:</p>
               
@@ -211,7 +210,6 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Features Section Below Hero */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-20">
           <div className="p-6 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 transition">
             <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-emerald-500/20 mb-4">

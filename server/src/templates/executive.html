@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Executive Resume</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: white;
+            font-family: Georgia, "Times New Roman", serif;
+            color: #0f172a;
+        }
+
+        .page {
+            width: 780px;
+            margin: 18mm auto;
+            padding: 28px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .name {
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .meta {
+            font-size: 13px;
+            color: #475569;
+        }
+
+        h2 {
+            font-size: 14px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 6px;
+            margin-top: 22px;
+        }
+
+        p {
+            font-size: 13px;
+            margin: 4px 0;
+            line-height: 1.45;
+        }
+
+        .item {
+            margin-bottom: 12px;
+        }
+
+        .item-title {
+            font-weight: bold;
+            font-size: 13.5px;
+        }
+
+        .item-sub {
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+
+        <div class="header">
+            <div>
+                <div class="name">{{fullname}}</div>
+                <div class="meta">{{email}} | {{phone}}</div>
+            </div>
+            <div style="text-align:right">
+                <div class="meta">{{linkedin}}</div>
+                <div class="meta">{{github}}</div>
+                <div class="meta">{{portfolio}}</div>
+            </div>
+        </div>
+
+        <h2>Profile Summary</h2>
+        <p>{{profileSummary}}</p>
+
+        <h2>Education</h2>
+        {{education}}
+
+        <h2>Technical Skills</h2>
+        {{skills}}
+
+        <h2>Work Experience</h2>
+        {{experience}}
+
+        <h2>Projects</h2>
+        {{projects}}
+
+        <h2>Certifications</h2>
+        {{certifications}}
+
+        <h2>Languages</h2>
+        {{languages}}
+
+        <h2>Interests</h2>
+        {{interests}}
+
+    </div>
+</body>
+
+</html>

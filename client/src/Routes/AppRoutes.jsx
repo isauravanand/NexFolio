@@ -5,6 +5,8 @@ import Register from "../pages/Register";
 import VerifyUser from "../pages/VerifyUser";
 import Dashboard from "../pages/Dashboard";
 import CreateResume from "../pages/CreateResume";
+import GenerateAiResume from "../pages/GenerateAiResume";
+import ResumePreview from "../pages/ResumePreview";
 import Home from "../pages/Home";
 
 
@@ -22,6 +24,8 @@ const AppRoutes = () => {
                     <Route path="/user/verifyUser" element={<VerifyUser/>}/>
                     <Route path="/dashboard" element={<Dashboard/>}/>
                     <Route path="/create-resume" element={<CreateResume/>}/>
+                    <Route path="/generate-ai-resume/:resumeId/:template" element={<GenerateAiResume/>}/>
+                    <Route path="/resume-preview/:id" element={<ResumePreview/>}/>
                 </Routes>
             </Router>
         </>

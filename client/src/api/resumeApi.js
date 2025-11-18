@@ -1,7 +1,9 @@
 import api from "./axios";
 
 export const createResume = (formData) => {
-    return api.post("/resume/create", formData);
+    return api.post("/resume/create", formData,{
+        withCredentials:true,
+    });
 };
 
 export const getMyResumes = () => {
