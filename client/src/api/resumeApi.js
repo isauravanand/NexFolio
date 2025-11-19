@@ -7,17 +7,27 @@ export const createResume = (formData) => {
 };
 
 export const getMyResumes = () => {
-    return api.get("/resume/my_resume");
+    return api.get("/resume/my_resume", {
+        withCredentials: true,
+    });
 };
 
-export const getResumeByUser = (userId) => {
-    return api.get(`/resume/${userId}`);
-};
+export const getResumeById = (resumeId) => {
+    return api.get(`/resume/${resumeId}`,{
+        withCredentials:true
+    }
+    );
+};                                                                                                                              
+
 
 export const updateResume = (id, formData) => {
-    return api.put(`/resume/${id}`, formData);
+    return api.put(`/resume/${id}`, formData, {
+        withCredentials: true,
+    });
 };
 
 export const deleteResume = (id) => {
-    return api.delete(`/resume/${id}`);
+    return api.delete(`/resume/${id}`, {
+        withCredentials: true,
+    });
 };
