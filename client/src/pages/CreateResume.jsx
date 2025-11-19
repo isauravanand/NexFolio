@@ -27,7 +27,7 @@ const CreateResume = () => {
     certifications: [{ title: "", organization: "", issueDate: "", credentialUrl: "" }],
     languages: ["English"],
     interests: [""],
-    selectedTemplate: null,
+    // selectedTemplate: null,
   });
 
   // Validation rules based on backend Zod schemas
@@ -284,13 +284,13 @@ const CreateResume = () => {
         return true;
       }
 
-      case 5: {
-        if (!formData.selectedTemplate) {
-          toast.error("Please select a template");
-          return false;
-        }
-        return true;
-      }
+      // case 5: {
+      //   if (!formData.selectedTemplate) {
+      //     toast.error("Please select a template");
+      //     return false;
+      //   }
+      //   return true;
+      // }
 
       default:
         return true;
@@ -330,15 +330,17 @@ const CreateResume = () => {
   const handleSubmit = async () => {
     try {
       setIsLoading(true);
-          toast.info("Saving your resume...");
+      toast.info("Saving your resume...");
       const response = await createResume(formData);
+      toast.success("Resume saved!");
       const resumeId = response.data.resume._id;
 
-      toast.success("Resume saved!");
-
-      navigate(`/resume-preview/${resumeId}`);
+      // Navigate to AI resume generation page
+      navigate(`/resume-preview/${resumeId}`); // no template param
     } catch (error) {
       toast.error("Validation error!");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -350,7 +352,7 @@ const CreateResume = () => {
       { num: 2, label: "Professional" },
       { num: 3, label: "Experience" },
       { num: 4, label: "Languages" },
-      { num: 5, label: "Template" },
+      // { num: 5, label: "Template" },
     ];
     return (
       <div className="mb-12">
@@ -881,41 +883,6 @@ const CreateResume = () => {
             </div>
           ))}
         </div>
-      </div>
-    </div>
-  );
-
-  // Step 5: Template Selection
-  const renderStep5 = () => (
-    <div>
-      <h2 className="text-2xl font-bold text-white mb-8">Choose Template</h2>
-      <div className="grid md:grid-cols-3 gap-6">
-        {[
-          { id: "modern", name: "Modern", color: "from-blue-600 to-purple-600" },
-          { id: "creative", name: "Creative", color: "from-pink-600 to-red-600" },
-          { id: "executive", name: "Executive", color: "from-slate-600 to-gray-700" },
-        ].map((template) => (
-          <div
-            key={template.id}
-            onClick={() => setFormData((prev) => ({ ...prev, selectedTemplate: template.id }))}
-            className={`cursor-pointer p-6 rounded-lg border-2 transition-all ${
-              formData.selectedTemplate === template.id
-                ? "border-purple-500 bg-white/10"
-                : "border-white/20 bg-white/5 hover:bg-white/10"
-            }`}
-          >
-            <div className={`h-32 bg-gradient-to-r ${template.color} rounded-lg mb-4`} />
-            <h3 className="text-lg font-bold text-white">{template.name} Template</h3>
-            <p className="text-sm text-gray-400">
-              {template.id === "modern" && "Clean and minimal design"}
-              {template.id === "creative" && "Creative and modern style"}
-              {template.id === "executive" && "Professional executive look"}
-            </p>
-            {formData.selectedTemplate === template.id && (
-              <div className="mt-4 text-purple-400 text-sm font-semibold">✓ Selected</div>
-            )}
-          </div>
-        ))}
       </div>
     </div>
   );
