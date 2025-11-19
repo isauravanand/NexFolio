@@ -88,15 +88,48 @@ async function createResume(req, res) {
   }
 }
  
+// async function getResumeByUser(req, res) {
+//   try {
+//     const { userId } = req.params;
+
+//     const resume = await Resume.findOne({ user: userId });
+//     if (!resume) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Resume not found for this user",
+//       });
+//     }
+
+//     return res.status(200).json({
+//       success: true,
+//       resume,
+//     });
+//   } catch (error) {
+//     console.error("Get Resume Error:", error);
+//     return res.status(500).json({
+//       success: false,
+//       message: "Server Error",
+//     });
+//   }
+// }
+
 async function getResumeByUser(req, res) {
   try {
-    const { userId } = req.params;
+    const { resumeId } = req.params;
 
-    const resume = await Resume.findOne({ user: userId });
+    if (!mongoose.Types.ObjectId.isValid(resumeId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid resume ID",
+      });
+    }
+
+    const resume = await Resume.findById(resumeId);
+
     if (!resume) {
       return res.status(404).json({
         success: false,
-        message: "Resume not found for this user",
+        message: "Resume not found",
       });
     }
 
@@ -106,12 +139,10 @@ async function getResumeByUser(req, res) {
     });
   } catch (error) {
     console.error("Get Resume Error:", error);
-    return res.status(500).json({
-      success: false,
-      message: "Server Error",
-    });
+    return res.status(500).json({ success: false, message: "Server Error" });
   }
 }
+
 
 const getUserResumes = async (req, res) => {
   try {
