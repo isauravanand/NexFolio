@@ -15,10 +15,8 @@ export const getMyResumes = () => {
 export const getResumeById = (resumeId) => {
     return api.get(`/resume/${resumeId}`,{
         withCredentials:true
-    }
-    );
+    });
 };                                                                                                                              
-
 
 export const updateResume = (id, formData) => {
     return api.put(`/resume/${id}`, formData, {
