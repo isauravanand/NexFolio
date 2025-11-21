@@ -11,27 +11,22 @@ const VerifyUser = () => {
   const [verifyCode, setVerifyCode] = useState("");
   const [email, setEmail] = useState("");
 
-  // Get email from state passed from Register page
   useEffect(() => {
     if (location.state?.email) {
       setEmail(location.state.email);
     } else {
-      // Redirect to register if email is not provided
       toast.error("Please register first to verify your email.");
       navigate("/user/register");
     }
   }, [location, navigate]);
 
-  // Handle input change
   const handleChange = (e) => {
     setVerifyCode(e.target.value);
   };
 
-  // Handle verification submission
   const handleVerify = async (e) => {
     e.preventDefault();
 
-    // Validation
     if (!verifyCode.trim()) {
       toast.error("Verification code is required.");
       return;
