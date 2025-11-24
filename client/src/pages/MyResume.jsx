@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { FileText, Rocket, RefreshCw, Loader2, Calendar } from "lucide-react"; // Removed Edit icon
-import { getMyResumes } from "../api/resumeApi";
+import { FileText, Rocket, RefreshCw, Loader2, Calendar, Edit } from "lucide-react";
+import { getMyResumes } from "../api/resumeApi"; // Assuming this is now correctly pointing to /resume/my_resume or /resume
 import Navbar from "../components/UserInterface/Navbar";
 
 
@@ -20,21 +20,33 @@ const MyResumes = () => {
         });
     };
 
+    // --- Data Fetching ---
     const fetchResumes = async () => {
         setLoading(true);
         setError(null);
         try {
             const res = await getMyResumes();
             if (res.data.success) {
-                setResumes(res.data.resumes);
+                // Should correctly handle an empty array [] if backend sends 200 OK
+                setResumes(res.data.resumes || []);
             } else {
-                setError("Failed to load resumes.");
+                setError("Failed to load resumes. Server response not successful.");
                 toast.error("Failed to fetch resumes list.");
             }
         } catch (err) {
             console.error("Fetch Resumes Error:", err);
-            setError("Could not connect to the server or authentication failed.");
-            toast.error("Authentication required or network error.");
+            // This is the error handler that triggers on 404, 401, or Network error.
+            if (err.response && (err.response.status === 401 || err.response.status === 403)) {
+                setError("Authentication failed. Please log in.");
+                toast.error("Session expired or unauthorized access.");
+            } else if (err.response && err.response.status === 404) {
+                setError("API endpoint not found. Please verify the resume retrieval route.");
+                toast.error("Routing error (404) encountered.");
+            }
+            else {
+                setError("Network or server connection failed.");
+                toast.error("Connection failed.");
+            }
         } finally {
             setLoading(false);
         }
@@ -49,6 +61,9 @@ const MyResumes = () => {
         navigate(`/resume-preview/${resumeId}`);
     };
 
+    const handleCreateNew = () => {
+        navigate("/create-resume");
+    };
 
 
     if (loading) {
@@ -84,9 +99,18 @@ const MyResumes = () => {
             <Navbar />
 
             <main className="max-w-7xl mx-auto px-6 lg:px-8 pt-24 pb-20">
-                <h1 className="text-4xl md:text-5xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-blue-400 to-purple-400">
-                    My Resumes
-                </h1>
+                <div className="flex justify-between items-center mb-10">
+                    <h1 className="text-4xl md:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-blue-400 to-purple-400">
+                        My Resumes
+                    </h1>
+                    <button
+                        onClick={handleCreateNew}
+                        className="inline-flex items-center px-6 py-3 bg-purple-600 text-white rounded-md font-semibold shadow-lg shadow-purple-600/50 hover:brightness-95 transition"
+                    >
+                        <Edit size={20} className="mr-2" /> Create New Resume
+                    </button>
+                </div>
+
                 <p className="text-xl font-medium text-slate-400 mb-10">
                     You have {resumes.length} saved resume{resumes.length !== 1 ? 's' : ''}.
                 </p>
@@ -97,8 +121,8 @@ const MyResumes = () => {
                         <p className="text-lg font-semibold text-white mb-2">No Resumes Found</p>
                         <p className="text-slate-400 mb-6">It looks like you haven't created any resumes yet.</p>
                         <button
-                            onClick={() => navigate("/create-resume")}
-                            className="inline-flex items-center px-6 py-3 bg-emerald-500 text-white rounded-md font-semibold shadow hover:brightness-95 transition"
+                            onClick={handleCreateNew}
+                            className="inline-flex cursor-pointer items-center px-6 py-3 bg-emerald-500 text-white rounded-md font-semibold shadow hover:brightness-95 transition"
                         >
                             <Rocket size={20} className="mr-2 rotate-45" /> Start Creating Resume
                         </button>
