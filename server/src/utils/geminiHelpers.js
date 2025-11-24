@@ -39,11 +39,9 @@ async function generateWithGemini(prompt, retries = 5) {
  * Safely extracts and parses JSON block from a string response.
  */
 function safeExtractJSON(text) {
-    // Regex to find the outermost curly braces {}
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) throw new Error("Gemini did not return parsable JSON");
 
-    // Remove null control characters often inserted by LLMs
     const clean = jsonMatch[0]
         .replace(/[\u0000-\u001F]+/g, "")
         .trim();
