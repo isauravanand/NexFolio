@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "../components/UserInterface/Navbar";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { getCurrentUser } from "../api/authApi";
 import { Zap, Award, Clock, FileText, CheckCircle, Edit, Download } from "lucide-react";
 
 const Home = () => {
@@ -80,27 +81,20 @@ const Home = () => {
 
             <div className="mt-10 flex flex-wrap gap-4 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
               <button
-                onClick={() => {
-                  const isLoggedIn = () => {
-                    try {
-                      if (typeof document !== "undefined") {
-                        const cookies = document.cookie.split(";").map((c) => c.trim());
-                        for (const c of cookies) if (c.startsWith("token=")) return true;
-                      }
-                      if (typeof localStorage !== "undefined") {
-                        const t = localStorage.getItem("token");
-                        if (t) return true;
-                      }
-                    } catch (e) {}
-                    return false;
-                  };
-                  
-                  if (!isLoggedIn()) {
-                    toast.info("Please sign up to create your resume");
-                    navigate("/user/register");
-                  } else {
-                    navigate("/create-resume");
+                onClick={async () => {
+                  try {
+                    // Ask backend if user is authenticated using httpOnly cookie
+                    const res = await getCurrentUser();
+                    if (res.data?.success) {
+                      navigate("/create-resume");
+                      return;
+                    }
+                  } catch (e) {
+                    // Ignore error, treat as not logged in
                   }
+
+                  toast.info("Please sign up to create your resume");
+                  navigate("/user/register");
                 }}
                 className="cursor-pointer inline-flex  items-center px-6 py-3 bg-indigo-500 to bg-indigo-600 text-white rounded-md font-semibold shadow hover:brightness-95 transition"
               >
