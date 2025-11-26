@@ -9,6 +9,7 @@ import GenerateAiResume from "../pages/GenerateAiResume";
 import ResumePreview from "../pages/ResumePreview";
 import Home from "../pages/Home";
 import MyResume from "../pages/MyResume";
+import NotFound from "../pages/NotFound";
 
 
 
@@ -28,6 +29,7 @@ const AppRoutes = () => {
                     <Route path="/generate-ai-resume/:resumeId/:template" element={<GenerateAiResume/>}/>
                     <Route path="/resume-preview/:resumeId" element={<ResumePreview />} />
                     <Route path="/my_resume" element={<MyResume/>}/>
+                    <Route path="*" element={<NotFound/>}/>
                 </Routes>
             </Router>
         </>
