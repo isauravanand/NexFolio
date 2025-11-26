@@ -84,7 +84,7 @@ const Register = () => {
                     </div>
 
                     <div>
-                        <label className="text-gray-200 text-sm mb-1 block">Email Address</label>
+                        <label className="text-gray-200 text-sm mb-1 block">Email Address <br /> Enter a valid Email <span> <b>We will send you an OTP</b></span></label>
                         <div className="relative">
                             <input
                                 type="email"
