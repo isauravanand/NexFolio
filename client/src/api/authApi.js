@@ -15,3 +15,7 @@ export const verifyOtp = (formData)=>{
 export const logoutUser = ()=>{
     return api.get("/auth/user/logout");
 };
+
+export const getCurrentUser = () => {
+    return api.get("/auth/user/me");
+};
