@@ -5,14 +5,13 @@ import { createResume } from "../api/resumeApi";
 
 // Imported Step Components
 import Navbar from "../components/UserInterface/Navbar";
-import Background from "../components/UserInterface/Background";
 import Footer from "../components/UserInterface/Footer";
 import StepIndicator from "../components/Resume/StepIndicator";
 import Step1Contact from "../components/Resume/Step1Contact";
 import Step2Professional from "../components/Resume/Step2Professional";
 import Step3Experience from "../components/Resume/Step3Experience";
 import Step4Languages from "../components/Resume/Step4Languages";
-
+import { ChevronLeft, ChevronRight, Save } from "lucide-react";
 
 const CreateResume = () => {
   const navigate = useNavigate();
@@ -109,12 +108,14 @@ const CreateResume = () => {
 
   const handleNext = () => {
     if (stepRef.current && stepRef.current.validate && stepRef.current.validate()) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       setCurrentStep(currentStep + 1);
     }
   };
 
   const handlePrevious = () => {
     if (currentStep > 1) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       setCurrentStep(currentStep - 1);
     }
   };
@@ -195,31 +196,48 @@ const CreateResume = () => {
   };
 
   return (
-    <>
-      <Background>
+    <div className="min-h-screen bg-black text-white selection:bg-purple-500/30 selection:text-purple-200 font-sans">
+
+      {/* Background Effects */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-900/20 rounded-full blur-[128px]"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-indigo-900/10 rounded-full blur-[128px]"></div>
+      </div>
+
+      <div className="relative z-10 flex flex-col min-h-screen">
         <Navbar />
-        <div className="pt-20 pb-12 px-4 md:px-8">
-          <div className="max-w-5xl mx-auto">
+
+        <div className="flex-grow pt-32 pb-20 px-4 md:px-8">
+          <div className="max-w-5xl mx-auto mb-10">
+
             <StepIndicator currentStep={currentStep} />
 
-            <div className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-8 mb-8">
+            <div className="bg-zinc-900/30 backdrop-blur-xl rounded-3xl border border-white/5 p-8 md:p-12 mb-8 shadow-2xl relative overflow-hidden">
+              {/* Decorative top border gradient */}
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500/50 via-indigo-500/50 to-transparent"></div>
+
               {renderStep()}
             </div>
 
-            {/* Navigation */}
-            <div className="flex justify-between items-center">
+            {/* Navigation Buttons */}
+            <div className="flex justify-between items-center px-2">
               <button
                 onClick={handlePrevious}
                 disabled={currentStep === 1}
-                className={`px-6 py-2 rounded-lg font-semibold transition ${currentStep === 1
-                  ? "bg-white/5 text-gray-500 cursor-not-allowed"
-                  : "bg-white/10 text-white hover:bg-white/20"
-                  }`}
+                className={`
+                  flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300
+                  ${currentStep === 1
+                    ? "opacity-0 cursor-default"
+                    : "bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white border border-white/5 hover:border-white/10"
+                  }
+                `}
               >
+                <ChevronLeft size={20} />
                 Previous
               </button>
 
-              <span className="text-gray-400">
+              <span className="text-zinc-500 text-sm font-medium tracking-wide">
                 Step {currentStep} of 4
               </span>
 
@@ -227,23 +245,37 @@ const CreateResume = () => {
                 <button
                   onClick={handleSubmit}
                   disabled={isLoading}
-                  className="px-8 py-2 rounded-lg font-semibold bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:shadow-lg hover:shadow-purple-500/50 transition disabled:opacity-50"
+                  className="
+                    flex items-center gap-2 px-8 py-3 rounded-xl font-semibold 
+                    bg-gradient-to-r from-purple-600 to-indigo-600 text-white 
+                    hover:shadow-lg hover:shadow-purple-500/25 hover:scale-[1.02] active:scale-[0.98]
+                    transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100
+                  "
                 >
+                  <Save size={20} />
                   {isLoading ? "Creating..." : "Create Resume"}
                 </button>
               ) : (
                 <button
                   onClick={handleNext}
-                  className="px-8 py-2 rounded-lg font-semibold bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:shadow-lg hover:shadow-purple-500/50 transition"
+                  className="
+                    flex items-center gap-2 px-8 py-3 rounded-xl font-semibold 
+                    bg-gradient-to-r from-purple-600 to-indigo-600 text-white 
+                    hover:shadow-lg hover:shadow-purple-500/25 hover:scale-[1.02] active:scale-[0.98]
+                    transition-all duration-300
+                  "
                 >
                   Next
+                  <ChevronRight size={20} />
                 </button>
               )}
             </div>
           </div>
         </div>
-      </Background>
-    </>
+
+        <Footer />
+      </div>
+    </div>
   );
 };
 
