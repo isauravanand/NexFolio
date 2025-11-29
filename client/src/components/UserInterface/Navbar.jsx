@@ -8,6 +8,7 @@ const Navbar = () => {
     const [authenticated, setAuthenticated] = useState(false);
     const navigate = useNavigate();
 
+    // --- LOGIC STARTS HERE (No changes made) ---
     const isLoggedIn = () => {
         try {
             if (typeof document !== "undefined") {
@@ -60,158 +61,174 @@ const Navbar = () => {
         navigate("/my_resume");
         if (open) setOpen(false);
     };
-
-    const shadowGlow = "shadow-[0_0_50px_rgba(109,40,217,0.3),_0_0_15px_rgba(255,255,255,0.05)]";
+    // --- LOGIC ENDS HERE ---
 
     return (
         <>
-            <style>
-                {`
-                    /* Note: The float animation is removed for a cleaner look, but style tag remains for potential future use */
-                `}
-            </style>
+            <div className="fixed top-6 left-0 w-full z-50 flex flex-col items-center">
+                {/* Main Navbar Pill 
+                    - w-[95%] for mobile safety
+                    - lg:w-[60%] achieves the ~20% margin on left and right (100% - 60% = 40% / 2 = 20%)
+                */}
+                <div className={`
+                    relative 
+                    w-[95%] md:w-[80%] lg:w-[60%] 
+                    h-16 rounded-full
+                    backdrop-blur-xl bg-black/60 border border-white/10
+                    shadow-[0_0_30px_rgba(109,40,217,0.2)]
+                    flex justify-between items-center px-6 md:px-8
+                    transition-all duration-300
+                `}>
 
-            <div className={`
-                fixed top-0 left-0 w-full h-16 z-50
-                backdrop-blur-2xl bg-black/5 border-b border-white/10
-                ${shadowGlow}
-                flex justify-between items-center px-8 md:px-12
-            `}>
+                    {/* Logo Section */}
+                    <Link to="/" className="flex items-center group">
+                        <span className="
+                            font-extrabold text-xl md:text-2xl text-white tracking-wider
+                            transition-colors duration-300
+                            group-hover:text-purple-400
+                        ">NexFolio
+                        </span>
+                    </Link>
 
-                <Link to="/" className="flex items-center group">
-                    <span className="
-                        font-extrabold text-2xl text-white tracking-wider
-                        transition-colors duration-300
-                        group-hover:text-purple-400
-                    ">NexFolio
-                    </span>
-                </Link>
+                    {/* Desktop Menu Items */}
+                    <div className="hidden md:flex items-center space-x-4">
 
-                <div className="hidden md:flex items-center space-x-4">
+                        {authenticated && (
+                            <button
+                                onClick={handleMyResumes}
+                                className="
+                                    flex items-center gap-2 text-gray-300 relative group
+                                    hover:text-white transition-all duration-300 text-sm font-medium
+                                    py-1.5 px-4 border border-transparent hover:border-purple-600/50 rounded-full
+                                    bg-white/5 hover:bg-white/10 cursor-pointer
+                                "
+                            >
+                                <FileText size={16} className="text-blue-400 group-hover:text-white transition-colors" />
+                                <span>My Resumes</span>
+                            </button>
+                        )}
 
-                    {authenticated && (
+                        {authenticated ? (
+                            <button
+                                onClick={handleLogout}
+                                className="
+                                    flex items-center gap-2 text-gray-300 relative group
+                                    hover:text-white transition-all duration-300 text-sm font-medium
+                                    py-1.5 px-4 border border-transparent hover:border-purple-600/50 rounded-full
+                                    bg-white/5 hover:bg-white/10 cursor-pointer
+                                "
+                            >
+                                <LogIn size={16} className="text-purple-400 group-hover:text-white transition-colors" />
+                                <span>Logout</span>
+                            </button>
+                        ) : (
+                            <Link
+                                to="/user/login"
+                                className="
+                                    flex items-center gap-2 text-gray-300 relative group
+                                    hover:text-white transition-all duration-300 text-sm font-medium
+                                    py-1.5 px-4 border border-transparent hover:border-purple-600/50 rounded-full
+                                    bg-white/5 hover:bg-white/10 cursor-pointer
+                                "
+                            >
+                                <LogIn size={16} className="text-purple-400 group-hover:text-white transition-colors" />
+                                <span>Sign In</span>
+                            </Link>
+                        )}
+
                         <button
-                            onClick={handleMyResumes}
+                            onClick={handleGetStarted}
                             className="
-                                flex items-center gap-2 text-gray-300 relative group
-                                hover:text-white transition-all duration-300 text-base font-medium
-                                py-1 px-3 border border-transparent hover:border-purple-600/50 rounded-lg
-                                bg-white/5 hover:bg-white/10 cursor-pointer
+                                relative overflow-hidden
+                                flex items-center gap-2 
+                                bg-gradient-to-r from-purple-600 to-indigo-600 text-white 
+                                font-semibold
+                                px-5 py-2 rounded-full transition-all duration-300 shadow-lg text-sm
+                                hover:scale-[1.03]
+                                shadow-purple-700/30 hover:shadow-indigo-500/50
+                                border border-white/10
                             "
                         >
-                            <FileText size={18} className="text-blue-400 group-hover:text-white transition-colors" />
-                            <span className="relative overflow-hidden">My Resumes</span>
+                            <Rocket size={16} className="rotate-45" />
+                            <span className="relative z-10">Get Started</span>
                         </button>
-                    )}
 
-                    {authenticated ? (
-                        <button
-                            onClick={handleLogout}
-                            className="
-                                flex items-center gap-2 text-gray-300 relative group
-                                hover:text-white transition-all duration-300 text-base font-medium
-                                py-1 px-3 border border-transparent hover:border-purple-600/50 rounded-lg
-                                bg-white/5 hover:bg-white/10 cursor-pointer
-                            "
-                        >
-                            <LogIn size={18} className="text-purple-400 group-hover:text-white transition-colors" />
-                            <span className="relative overflow-hidden">Logout</span>
-                        </button>
-                    ) : (
-                        <Link
-                            to="/user/login"
-                            className="
-                                flex items-center gap-2 text-gray-300 relative group
-                                hover:text-white transition-all duration-300 text-base font-medium
-                                py-1 px-3 border border-transparent hover:border-purple-600/50 rounded-lg
-                                bg-white/5 hover:bg-white/10 cursor-pointer
-                            "
-                        >
-                            <LogIn size={18} className="text-purple-400 group-hover:text-white transition-colors" />
-                            <span className="relative overflow-hidden">Sign In</span>
-                        </Link>
-                    )}
+                    </div>
 
-                    <button
-                        onClick={handleGetStarted}
-                        className="
-                            relative overflow-hidden
-                            flex items-center gap-2 
-                            bg-gradient-to-r from-purple-600 to-indigo-600 text-white 
-                            font-semibold
-                            px-5 py-2 rounded-full transition-all duration-300 shadow-xl text-base
-                            hover:scale-[1.03]
-                            shadow-purple-700/50 hover:shadow-indigo-500/80
-                            
-                            before:absolute before:inset-0 before:rounded-full before:border before:border-purple-300 before:opacity-0 before:transition-opacity before:duration-500
-                            hover:before:opacity-100 cursor-pointer
-                        "
+                    {/* Mobile Menu Button */}
+                    <div
+                        className="md:hidden text-white cursor-pointer hover:text-purple-400 transition"
+                        onClick={() => setOpen(!open)}
                     >
-                        <Rocket size={18} className="rotate-45" />
-                        <span className="relative z-10">Get Started</span>
-                    </button>
-
+                        {open ? <X size={24} /> : <Menu size={24} />}
+                    </div>
                 </div>
 
+                {/* Mobile Dropdown 
+                    Detached floating card that sits below the navbar
+                */}
                 <div
-                    className="md:hidden text-white cursor-pointer hover:text-purple-400 transition"
-                    onClick={() => setOpen(!open)}
+                    className={`
+                        mt-2 
+                        w-[95%] md:w-[80%]
+                        rounded-2xl
+                        backdrop-blur-xl bg-black/80 border border-white/10
+                        transform transition-all duration-300 overflow-hidden shadow-2xl
+                        ${open ? "max-h-[300px] opacity-100 translate-y-0" : "max-h-0 opacity-0 -translate-y-4"}
+                        md:hidden
+                    `}
                 >
-                    {open ? <X size={28} /> : <Menu size={28} />}
-                </div>
-            </div>
+                    <div className="flex flex-col py-4 px-6 space-y-3 text-white">
+                        {authenticated && (
+                            <button
+                                className="flex items-center gap-3 text-gray-300 hover:text-white transition text-base py-2 px-2 hover:bg-white/5 rounded-lg w-full text-left"
+                                onClick={handleMyResumes}
+                            >
+                                <FileText size={18} className="text-blue-400" />
+                                My Resumes
+                            </button>
+                        )}
 
-            <div
-                className={`
-                    md:hidden fixed top-16 left-0 w-full z-40 
-                    backdrop-blur-xl bg-black/50 border-b border-white/10
-                    transform transition-all duration-300 overflow-hidden
-                    ${open ? "max-h-[250px] opacity-100" : "max-h-0 opacity-0"}
-                `}
-            >
-                <div className="flex flex-col py-4 px-6 space-y-4 text-white">
+                        {authenticated ? (
+                            <button
+                                onClick={() => {
+                                    handleLogout();
+                                    setOpen(false);
+                                }}
+                                className="flex items-center gap-3 text-gray-300 hover:text-white transition text-base py-2 px-2 hover:bg-white/5 rounded-lg w-full text-left"
+                            >
+                                <LogIn size={18} className="text-purple-400" />
+                                Logout
+                            </button>
+                        ) : (
+                            <Link
+                                to="/user/login"
+                                className="flex items-center gap-3 text-gray-300 hover:text-white transition text-base py-2 px-2 hover:bg-white/5 rounded-lg"
+                                onClick={() => setOpen(false)}
+                            >
+                                <LogIn size={18} className="text-purple-400" />
+                                Sign In
+                            </Link>
+                        )}
 
-                    {authenticated && (
-                        <Link
-                            className="flex items-center gap-3 text-gray-300 hover:text-white transition text-lg py-1"
-                            onClick={() => setOpen(false)}
-                        >
-                            <FileText size={20} className="text-blue-400" />
-                            My Resumes
-                        </Link>
-                    )}
+                        <div className="h-[1px] bg-white/10 my-2"></div>
 
-                    {authenticated ? (
                         <button
-                            onClick={handleLogout}
-                            className="flex items-center gap-3 text-gray-300 hover:text-white transition text-lg py-1 w-full justify-start"
+                            onClick={() => {
+                                handleGetStarted();
+                                setOpen(false);
+                            }}
+                            className="
+                                flex items-center justify-center gap-2 
+                                bg-gradient-to-r from-purple-600 to-indigo-600 text-white 
+                                font-semibold
+                                px-4 py-2.5 rounded-xl transition hover:opacity-90 w-full
+                            "
                         >
-                            <LogIn size={20} className="text-purple-400" />
-                            Logout
+                            <Rocket size={18} className="rotate-45" />
+                            Get Started
                         </button>
-                    ) : (
-                        <Link
-                            to="/user/login"
-                            className="flex items-center gap-3 text-gray-300 hover:text-white transition text-lg py-1"
-                            onClick={() => setOpen(false)}
-                        >
-                            <LogIn size={20} className="text-purple-400" />
-                            Sign In
-                        </Link>
-                    )}
-
-                    <button
-                        onClick={handleGetStarted}
-                        className="
-                            flex items-center gap-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white 
-                            font-semibold
-                            px-4 py-2 rounded-lg transition hover:bg-purple-700 w-full justify-center
-                        "
-                    >
-                        <Rocket size={20} className="rotate-45" />
-                        Get Started
-                    </button>
-
+                    </div>
                 </div>
             </div>
         </>
