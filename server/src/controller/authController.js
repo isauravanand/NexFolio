@@ -70,8 +70,11 @@ async function registerUser(req, res) {
 
         res.cookie("token", token, {
             httpOnly: true,
-            secure: false,
+            secure: true,
+            sameSite: "none",
+            path: "/"
         });
+
 
         // Send SINGLE response only
         return res.status(201).json({
@@ -103,7 +106,7 @@ async function loginUser(req, res) {
         const result = loginValidation.safeParse(req.body);
 
         if (!result.success) {
-            console.log("Validation Error:", error.issues);
+            console.log("Validation Error:", result.error.issues);
 
             return res.status(400).json({
                 success: false,
@@ -142,7 +145,12 @@ async function loginUser(req, res) {
         )
 
         // Set token cookie
-        res.cookie("token", token);
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+            path: "/"
+        });
 
         //  Send success response
         return res.status(200).json({
@@ -203,7 +211,12 @@ async function verifyUser(req, res) {
 
 //Logout User
 async function logoutUser(req, res) {
-    res.clearCookie("token");
+    res.clearCookie("token", {
+        secure: true,
+        sameSite: "none",
+        path: "/"
+    });
+
     res.status(200).json({
         message: "User Logged Out Successfully"
     })
