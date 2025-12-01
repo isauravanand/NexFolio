@@ -2,6 +2,32 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import { User, Mail, Phone, Linkedin, Github, Globe } from 'lucide-react';
 
+const InputField = ({ label, icon: Icon, value, onChange, type = "text", placeholder, required }) => (
+    <div className="group">
+        <label className="block text-xs font-medium text-zinc-400 mb-2 uppercase tracking-wider">
+            {label} {required && <span className="text-purple-400">*</span>}
+        </label>
+        <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Icon size={16} className="text-zinc-600 group-focus-within:text-purple-400 transition-colors" />
+            </div>
+            <input
+                type={type}
+                value={value}
+                onChange={onChange}
+                className="
+                    w-full pl-10 pr-4 py-3 
+                    bg-zinc-900/50 border border-white/10 rounded-xl 
+                    text-white placeholder-zinc-600 
+                    focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500/50 
+                    transition-all duration-200
+                "
+                placeholder={placeholder}
+            />
+        </div>
+    </div>
+);
+
 const Step1Contact = React.forwardRef(({ formData, validationRules, setFormData }, ref) => {
 
     const handleBasicInputChange = (field, value) => {
@@ -45,37 +71,10 @@ const Step1Contact = React.forwardRef(({ formData, validationRules, setFormData 
         validate: validate
     }));
 
-    // Reusable Input Component for Consistency
-    const InputField = ({ label, icon: Icon, value, onChange, type = "text", placeholder, required }) => (
-        <div className="group">
-            <label className="block text-xs font-medium text-zinc-400 mb-2 uppercase tracking-wider">
-                {label} {required && <span className="text-purple-400">*</span>}
-            </label>
-            <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Icon size={16} className="text-zinc-600 group-focus-within:text-purple-400 transition-colors" />
-                </div>
-                <input
-                    type={type}
-                    value={value}
-                    onChange={onChange}
-                    className="
-                        w-full pl-10 pr-4 py-3 
-                        bg-zinc-900/50 border border-white/10 rounded-xl 
-                        text-white placeholder-zinc-600 
-                        focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500/50 
-                        transition-all duration-200
-                    "
-                    placeholder={placeholder}
-                />
-            </div>
-        </div>
-    );
-
     return (
-        <div className="animate-fade-up ">
+        <div className="animate-fade-up">
             <div className="mb-8">
-                <h2 className="text-2xl font-bold text-white mb-2 ">Contact Information</h2>
+                <h2 className="text-2xl font-bold text-white mb-2">Contact Information</h2>
                 <p className="text-zinc-400 text-sm">How can recruiters reach you?</p>
             </div>
 
@@ -85,7 +84,7 @@ const Step1Contact = React.forwardRef(({ formData, validationRules, setFormData 
                     icon={User}
                     value={formData.fullname}
                     onChange={(e) => handleBasicInputChange("fullname", e.target.value)}
-                    placeholder="Your Full name"
+                    placeholder="Your Name"
                     required
                 />
 
@@ -95,7 +94,7 @@ const Step1Contact = React.forwardRef(({ formData, validationRules, setFormData 
                     value={formData.email}
                     onChange={(e) => handleBasicInputChange("email", e.target.value)}
                     type="email"
-                    placeholder="fullname@example.com"
+                    placeholder="yourname@example.com"
                     required
                 />
 
