@@ -11,9 +11,10 @@ const cookieParser = require("cookie-parser");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: ["https://nexfolio-ashen.vercel.app", "http://localhost:5173"],
     credentials: true,
 }));
+
 
 connectDB();
 
