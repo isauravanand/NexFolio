@@ -54,6 +54,10 @@ const Login = () => {
 
             if (res.data.success) {
                 toast.success("Login successful!");
+
+                
+                localStorage.setItem("nexfolio_user", JSON.stringify(res.data.user));
+
                 navigate("/");
             }
         } catch (error) {
@@ -77,7 +81,7 @@ const Login = () => {
 
             <div className="relative z-10 w-full max-w-md">
 
-               
+
                 <div className="bg-zinc-900/40 backdrop-blur-xl border border-white/10 p-8 rounded-3xl shadow-2xl">
                     <div className="text-center mb-8">
                         <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">
