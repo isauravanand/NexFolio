@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Menu, X, LogIn, Rocket, FileText } from "lucide-react";
+import { Menu, X, LogIn, Rocket, FileText, Github } from "lucide-react";
 import { toast } from "react-toastify";
 
 const Navbar = () => {
@@ -8,7 +8,8 @@ const Navbar = () => {
     const [authenticated, setAuthenticated] = useState(false);
     const navigate = useNavigate();
 
-    // --- LOGIC STARTS HERE (No changes made) ---
+    const GITHUB_REPO_URL = "https://github.com/isauravanand/NexFolio";
+
     const isLoggedIn = () => {
         try {
             if (typeof document !== "undefined") {
@@ -48,39 +49,17 @@ const Navbar = () => {
         }
     };
 
-    const handleGetStarted = () => {
-        if (authenticated) {
-            navigate("/create-resume");
-        } else {
-            toast.info("Please sign up to create your resume");
-            navigate("/user/register");
-        }
-    };
-
     const handleMyResumes = () => {
         navigate("/my_resume");
         if (open) setOpen(false);
     };
-    // --- LOGIC ENDS HERE ---
 
     return (
         <>
-            <div className="fixed top-6 left-0 w-full z-50 flex flex-col items-center">
-                {/* Main Navbar Pill 
-                    - w-[95%] for mobile safety
-                    - lg:w-[60%] achieves the ~20% margin on left and right (100% - 60% = 40% / 2 = 20%)
-                */}
-                <div className={`
-                    relative 
-                    w-[95%] md:w-[80%] lg:w-[60%] 
-                    h-16 rounded-full
-                    backdrop-blur-xl bg-black/60 border border-white/10
-                    shadow-[0_0_30px_rgba(109,40,217,0.2)]
-                    flex justify-between items-center px-6 md:px-8
-                    transition-all duration-300
-                `}>
+            <div className="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-black/60 border-b border-white/10 shadow-lg transition-all duration-300">
 
-                    {/* Logo Section */}
+                <div className="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex justify-between items-center">
+
                     <Link to="/" className="flex items-center group">
                         <span className="
                             font-extrabold text-xl md:text-2xl text-white tracking-wider
@@ -90,20 +69,19 @@ const Navbar = () => {
                         </span>
                     </Link>
 
-                    {/* Desktop Menu Items */}
-                    <div className="hidden md:flex items-center space-x-4">
+                    <div className="hidden md:flex items-center space-x-6">
 
                         {authenticated && (
                             <button
                                 onClick={handleMyResumes}
                                 className="
-                                    flex items-center gap-2 text-gray-300 relative group
+                                    flex items-center gap-2 text-zinc-400 group
                                     hover:text-white transition-all duration-300 text-sm font-medium
-                                    py-1.5 px-4 border border-transparent hover:border-purple-600/50 rounded-full
-                                    bg-white/5 hover:bg-white/10 cursor-pointer
+                                    py-2 px-4 rounded-lg
+                                    hover:bg-white/5
                                 "
                             >
-                                <FileText size={16} className="text-blue-400 group-hover:text-white transition-colors" />
+                                <FileText size={18} className="text-blue-500 group-hover:text-blue-400 transition-colors" />
                                 <span>My Resumes</span>
                             </button>
                         )}
@@ -112,79 +90,75 @@ const Navbar = () => {
                             <button
                                 onClick={handleLogout}
                                 className="
-                                    flex items-center gap-2 text-gray-300 relative group
+                                    flex items-center gap-2 text-zinc-400 group
                                     hover:text-white transition-all duration-300 text-sm font-medium
-                                    py-1.5 px-4 border border-transparent hover:border-purple-600/50 rounded-full
-                                    bg-white/5 hover:bg-white/10 cursor-pointer
+                                    py-2 px-4 rounded-lg
+                                    hover:bg-white/5
                                 "
                             >
-                                <LogIn size={16} className="text-purple-400 group-hover:text-white transition-colors" />
+                                <LogIn size={18} className="text-purple-500 group-hover:text-purple-400 transition-colors" />
                                 <span>Logout</span>
                             </button>
                         ) : (
                             <Link
                                 to="/user/login"
                                 className="
-                                    flex items-center gap-2 text-gray-300 relative group
+                                    flex items-center gap-2 text-zinc-400 group
                                     hover:text-white transition-all duration-300 text-sm font-medium
-                                    py-1.5 px-4 border border-transparent hover:border-purple-600/50 rounded-full
-                                    bg-white/5 hover:bg-white/10 cursor-pointer
+                                    py-2 px-4 rounded-lg
+                                    hover:bg-white/5
                                 "
                             >
-                                <LogIn size={16} className="text-purple-400 group-hover:text-white transition-colors" />
+                                <LogIn size={18} className="text-purple-500 group-hover:text-purple-400 transition-colors" />
                                 <span>Sign In</span>
                             </Link>
                         )}
 
-                        <button
-                            onClick={handleGetStarted}
+                        <div className="h-6 w-[1px] bg-white/10 mx-2"></div>
+
+                        <a
+                            href={GITHUB_REPO_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="
                                 relative overflow-hidden
                                 flex items-center gap-2 
-                                bg-gradient-to-r from-purple-600 to-indigo-600 text-white 
+                                bg-zinc-800 text-white 
                                 font-semibold
-                                px-5 py-2 rounded-full transition-all duration-300 shadow-lg text-sm
-                                hover:scale-[1.03]
-                                shadow-purple-700/30 hover:shadow-indigo-500/50
-                                border border-white/10
+                                px-6 py-2.5 rounded-xl transition-all duration-300 shadow-lg text-sm
+                                hover:scale-[1.03] hover:bg-zinc-700 hover:shadow-purple-500/10
+                                border border-white/10 group
                             "
                         >
-                            <Rocket size={16} className="rotate-45" />
-                            <span className="relative z-10">Get Started</span>
-                        </button>
+                            <Github size={18} className="group-hover:text-purple-400 transition-colors" />
+                            <span className="relative z-10">Contribute</span>
+                        </a>
 
                     </div>
 
-                    {/* Mobile Menu Button */}
                     <div
-                        className="md:hidden text-white cursor-pointer hover:text-purple-400 transition"
+                        className="md:hidden text-zinc-400 cursor-pointer hover:text-white transition p-2 hover:bg-white/5 rounded-lg"
                         onClick={() => setOpen(!open)}
                     >
                         {open ? <X size={24} /> : <Menu size={24} />}
                     </div>
                 </div>
 
-                {/* Mobile Dropdown 
-                    Detached floating card that sits below the navbar
-                */}
                 <div
                     className={`
-                        mt-2 
-                        w-[95%] md:w-[80%]
-                        rounded-2xl
-                        backdrop-blur-xl bg-black/80 border border-white/10
+                        md:hidden absolute top-full left-0 w-full
+                        backdrop-blur-xl bg-black/90 border-b border-white/10
                         transform transition-all duration-300 overflow-hidden shadow-2xl
-                        ${open ? "max-h-[300px] opacity-100 translate-y-0" : "max-h-0 opacity-0 -translate-y-4"}
-                        md:hidden
+                        ${open ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"}
                     `}
                 >
-                    <div className="flex flex-col py-4 px-6 space-y-3 text-white">
+                    <div className="flex flex-col py-6 px-6 space-y-2 text-white">
                         {authenticated && (
                             <button
-                                className="flex items-center gap-3 text-gray-300 hover:text-white transition text-base py-2 px-2 hover:bg-white/5 rounded-lg w-full text-left"
+                                className="flex items-center gap-3 text-zinc-400 hover:text-white transition text-base py-3 px-4 hover:bg-white/5 rounded-xl w-full text-left"
                                 onClick={handleMyResumes}
                             >
-                                <FileText size={18} className="text-blue-400" />
+                                <FileText size={20} className="text-blue-500" />
                                 My Resumes
                             </button>
                         )}
@@ -195,39 +169,41 @@ const Navbar = () => {
                                     handleLogout();
                                     setOpen(false);
                                 }}
-                                className="flex items-center gap-3 text-gray-300 hover:text-white transition text-base py-2 px-2 hover:bg-white/5 rounded-lg w-full text-left"
+                                className="flex items-center gap-3 text-zinc-400 hover:text-white transition text-base py-3 px-4 hover:bg-white/5 rounded-xl w-full text-left"
                             >
-                                <LogIn size={18} className="text-purple-400" />
+                                <LogIn size={20} className="text-purple-500" />
                                 Logout
                             </button>
                         ) : (
                             <Link
                                 to="/user/login"
-                                className="flex items-center gap-3 text-gray-300 hover:text-white transition text-base py-2 px-2 hover:bg-white/5 rounded-lg"
+                                className="flex items-center gap-3 text-zinc-400 hover:text-white transition text-base py-3 px-4 hover:bg-white/5 rounded-xl"
                                 onClick={() => setOpen(false)}
                             >
-                                <LogIn size={18} className="text-purple-400" />
+                                <LogIn size={20} className="text-purple-500" />
                                 Sign In
                             </Link>
                         )}
 
-                        <div className="h-[1px] bg-white/10 my-2"></div>
+                        <div className="h-[1px] bg-white/5 my-4"></div>
 
-                        <button
-                            onClick={() => {
-                                handleGetStarted();
-                                setOpen(false);
-                            }}
+                        <a
+                            href={GITHUB_REPO_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={() => setOpen(false)}
                             className="
                                 flex items-center justify-center gap-2 
-                                bg-gradient-to-r from-purple-600 to-indigo-600 text-white 
-                                font-semibold
-                                px-4 py-2.5 rounded-xl transition hover:opacity-90 w-full
+                                bg-zinc-800 text-white 
+                                font-bold text-base
+                                px-4 py-3.5 rounded-xl transition hover:opacity-90 w-full 
+                                shadow-lg shadow-purple-900/10 hover:bg-zinc-700
+                                border border-white/10
                             "
                         >
-                            <Rocket size={18} className="rotate-45" />
-                            Get Started
-                        </button>
+                            <Github size={20} />
+                            Contribute
+                        </a>
                     </div>
                 </div>
             </div>

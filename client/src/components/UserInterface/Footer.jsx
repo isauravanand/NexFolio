@@ -1,92 +1,79 @@
 import React from "react";
-import { Mail, Phone, Linkedin, Twitter, Github, Rocket } from "lucide-react";
+import { Mail, Phone, Linkedin, Twitter, Github, Rocket, Heart } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-t from-black via-slate-950 to-slate-900/50 border-t border-emerald-600/20 text-slate-300 shadow-inner shadow-slate-900/50">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-14">
+    <footer className="relative bg-black text-white border-t border-white/10 pt-16 pb-8 overflow-hidden font-sans">
 
-        {/* --- TOP SECTION: BRAND & CONTACT --- */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-10 border-b border-slate-700/50 pb-10">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-purple-900/10 rounded-full blur-[100px] pointer-events-none"></div>
 
-          {/* 1. Brand Section (Takes 2 columns on md) */}
-          <div className="md:col-span-2">
-            <h3 className="text-3xl font-extrabold text-white mb-5 flex items-center gap-2">
-              <Rocket size={28} className="text-emerald-400 rotate-45" />
-              NexFolio
-            </h3>
-            <p className="text-sm text-slate-400 mb-6 leading-relaxed max-w-lg">
-              Build professional resumes powered by AI. Land your dream job with an ATS-optimized resume in minutes.
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
+
+          <div className="space-y-6">
+            <Link to="/" className="flex items-center gap-2 group">
+              <span className="font-extrabold text-2xl text-white tracking-wider group-hover:text-purple-400 transition-colors">
+                NexFolio
+              </span>
+            </Link>
+            <p className="text-zinc-400 text-sm leading-relaxed max-w-xs">
+              Build professional, ATS-friendly resumes in minutes with our AI-powered platform. Land your dream job faster.
             </p>
 
-            {/* Social Links - Enhanced button styling */}
-            <div className="flex gap-3 mt-6">
-              <SocialIcon href="#" label="LinkedIn"><Linkedin size={20} /></SocialIcon>
-              <SocialIcon href="#" label="Twitter"><Twitter size={20} /></SocialIcon>
-              <SocialIcon href="#" label="GitHub"><Github size={20} /></SocialIcon>
+            <div className="flex gap-4">
+              <SocialIcon href="#" icon={Linkedin} />
+              <SocialIcon href="#" icon={Twitter} />
+              <SocialIcon href="#" icon={Github} />
             </div>
           </div>
 
-          {/* 2. Contact Info (Takes 1 column on md) */}
-          <div className="md:col-span-2">
-            <h4 className="text-white font-extrabold mb-6 uppercase tracking-widest text-sm border-b border-slate-700/50 pb-2">Contact & Support</h4>
-
-            <div className="grid grid-cols-2 gap-4">
-
-              {/* Contact 1 */}
-              <div className="flex items-start gap-3">
-                <Mail size={18} className="text-emerald-400 flex-shrink-0 mt-1" />
-                <div>
-                  <p className="text-xs text-slate-500 uppercase">Email</p>
-                  <span className="text-slate-300 text-sm">Soon</span>
-                </div>
-              </div>
-
-              {/* Contact 2 */}
-              <div className="flex items-start gap-3">
-                <Phone size={18} className="text-emerald-400 flex-shrink-0 mt-1" />
-                <div>
-                  <p className="text-xs text-slate-500 uppercase">Phone</p>
-                  <span className="text-slate-300 text-sm">XXX-XXX-XXXX</span>
-                </div>
-              </div>
-
-              {/* Placeholder Links for structure */}
-              {/* <div className="col-span-2 pt-4">
-                <h4 className="text-white font-semibold mb-3 uppercase tracking-wider text-xs">Quick Links</h4>
-                <div className="flex gap-4 text-sm text-slate-400">
-                  <a href="/privacy" className="hover:text-emerald-400 transition">Privacy</a>
-                  <a href="/terms" className="hover:text-emerald-400 transition">Terms</a>
-                  <a href="/about" className="hover:text-emerald-400 transition">About</a>
-                </div>
-              </div> */}
-            </div>
+          <div className="md:text-right flex flex-col md:items-end">
+            <h4 className="font-bold text-white mb-6">Contact Us</h4>
+            <ul className="space-y-4 text-sm text-zinc-400">
+              <li className="flex items-center gap-3 justify-start md:justify-end">
+                <Mail size={16} className="text-purple-500" />
+                <span>Soon</span>
+              </li>
+              <li className="flex items-center gap-3 justify-start md:justify-end">
+                <Phone size={16} className="text-purple-500" />
+                <span>xxxxxxxxxx</span>
+              </li>
+            </ul>
           </div>
+
         </div>
 
-        {/* --- BOTTOM BAR: COPYRIGHT --- */}
-        <div className="pt-4 flex flex-col md:flex-row items-center justify-between">
-          <p className="text-sm text-slate-500 text-center md:text-left mb-4 md:mb-0">
-            © 2025 NexFolio. All rights reserved.
-            <span className="text-purple-400 block mt-1">Author: Saurav Anand</span>
+        {/* Bottom Bar */}
+        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-zinc-500 text-sm text-center md:text-left">
+            © {new Date().getFullYear()} NexFolio. All rights reserved.
           </p>
-          <p className="text-sm text-slate-500">
-            Crafted with <span className="text-emerald-400">♥</span> and AI for job seekers worldwide
+
+          <p className="text-zinc-500 text-sm flex items-center gap-1.5">
+            Made with <Heart size={14} className="text-red-500 fill-red-500 animate-pulse" /> by <span className="text-white font-medium">Saurav Anand</span>
           </p>
         </div>
+
       </div>
     </footer>
   );
 };
 
-// Helper component for styled social icons
-const SocialIcon = ({ href, label, children }) => (
+const SocialIcon = ({ href, icon: Icon }) => (
   <a
     href={href}
-    className="text-slate-400 hover:text-emerald-400 transition-colors duration-300 p-2 rounded-full border border-slate-700 hover:border-emerald-600/50 hover:bg-slate-800 flex items-center justify-center"
-    aria-label={label}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="
+            w-10 h-10 rounded-full bg-zinc-900 border border-white/10 
+            flex items-center justify-center text-zinc-400
+            hover:bg-purple-600 hover:text-white hover:border-purple-500 hover:-translate-y-1
+            transition-all duration-300
+        "
   >
-    {children}
+    <Icon size={18} />
   </a>
 );
 
