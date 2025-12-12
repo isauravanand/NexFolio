@@ -1,6 +1,5 @@
 const axios = require("axios");
 
-// 🔑 CHANGE 1: Updated the model name to gemini-2.5-flash
 const GEMINI_URL =
     "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
 
@@ -29,22 +28,19 @@ async function generateWithGemini(prompt, retries = 2) {
         } catch (err) {
             if (attempt === retries) {
                 console.error(`Gemini failed after ${retries} attempts.`);
-                // Log the actual status code if it's an Axios error
                 if (err.response) {
                     console.error(`Status: ${err.response.status}, Data: ${JSON.stringify(err.response.data)}`);
                 }
                 throw err;
             }
 
-            // 🔑 CHANGE 2: Improved Exponential Backoff with Jitter
-            // This is crucial for handling 429 errors gracefully.
-            const baseDelay = 1000; // Start at 1 second
-            const maxDelay = 16000; // Maximum delay of 16 seconds
+            const baseDelay = 1000; 
+            const maxDelay = 16000; 
             const exponentialDelay = Math.min(
                 maxDelay,
                 baseDelay * Math.pow(2, attempt - 1)
             );
-            const jitter = Math.random() * 1000; // Add up to 1 second of random delay
+            const jitter = Math.random() * 1000; 
 
             const delay = exponentialDelay + jitter;
             console.warn(`Attempt ${attempt} failed. Retrying in ${Math.round(delay / 1000)}s...`);
@@ -57,7 +53,6 @@ async function generateWithGemini(prompt, retries = 2) {
  * Safely extracts and parses JSON block from a string response.
  */
 function safeExtractJSON(text) {
-    // Looks for the first block of text that starts with { and ends with }
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) throw new Error("Gemini did not return parsable JSON");
 
