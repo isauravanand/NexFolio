@@ -1,9 +1,13 @@
 const axios = require("axios");
-const GEMINI_URL =
-    "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
-async function generateWithGemini(prompt, retries = 2) {
-    for (let attempt = 1; attempt <= retries; attempt++) {
+const GEMINI_URL =
+    "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent";
+
+const MAX_RETRIES = 5; 
+const BASE_DELAY_MS = 1000; 
+
+async function generateWithGemini(prompt) {
+    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
         try {
             const payload = {
                 contents: [{ role: "user", parts: [{ text: prompt }] }],
@@ -13,20 +17,34 @@ async function generateWithGemini(prompt, retries = 2) {
                 payload,
                 {
                     headers: { "Content-Type": "application/json" },
-                    timeout: 20000
+                    timeout: 30000
                 }
             );
+
             const text =
                 response?.data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
             if (!text) throw new Error("Empty response from Gemini");
             return text;
+
         } catch (err) {
-            if (attempt === retries) {
-                console.error(`Gemini failed after ${retries} attempts.`);
+            const isRateLimit = err.response && err.response.status === 429;
+
+            const errorStatus = err.response ? `Status ${err.response.status}` : 'Network Error';
+            console.warn(`Gemini attempt ${attempt}/${MAX_RETRIES} failed (${errorStatus}).`);
+
+            if (isRateLimit && attempt < MAX_RETRIES) {
+                const exponentialDelay = BASE_DELAY_MS * Math.pow(2, attempt - 1);
+                const jitter = Math.random() * BASE_DELAY_MS;
+                const delay = exponentialDelay + jitter;
+
+                console.warn(`Retrying in ${Math.round(delay / 1000)}s...`);
+
+                await new Promise((resolve) => setTimeout(resolve, delay));
+            } else {
+                console.error(`Gemini failed after ${attempt} attempts. Final error:`, err.message);
                 throw err;
             }
-            await new Promise((r) => setTimeout(r, 500 * attempt));
         }
     }
 }
@@ -38,6 +56,6 @@ function safeExtractJSON(text) {
         .replace(/[\u0000-\u001F]+/g, "")
         .trim();
     return JSON.parse(clean);
-
 }
-module.exports = { generateWithGemini, safeExtractJSON }; 
+
+module.exports = { generateWithGemini, safeExtractJSON };
