@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
-const puppeteer = require("puppeteer");
+const puppeteer = require("puppeteer-core");
+const chromium = require("@sparticuz/chromium");
 const { generateWithGemini, safeExtractJSON } = require("../utils/geminiHelpers");
 const { registerHandlebarsHelpers, Handlebars } = require("../utils/templateHelpers");
 
@@ -62,20 +63,10 @@ ${JSON.stringify(resumeData, null, 2)}
         const compiledHTML = Handlebars.compile(htmlTemplate)(improvedData);
 
         const launchOptions = {
-            headless: true,
-            args: [
-                '--no-sandbox',
-                '--disable-setuid-sandbox',
-                '--disable-gpu',
-                '--disable-dev-shm-usage',
-                '--single-process',
-                '--no-zygote'
-            ]
+            args: chromium.args,
+            executablePath: await chromium.executablePath(),
+            headless: chromium.headless,
         };
-
-        if (process.env.PUPPETEER_EXECUTABLE_PATH) {
-            launchOptions.executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
-        }
 
         console.log("Launching Puppeteer with options:", JSON.stringify(launchOptions)); // Debug log
 
